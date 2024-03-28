@@ -3,30 +3,21 @@ import java.util.List;
 
 class Solution {
     public int[] solution(int[] arr, boolean[] flag) {
-        List<Integer> X = new ArrayList<>();
-
-        for (int i = 0; i < arr.length; i++) {
-            if (flag[i]) {
-                int num = arr[i];
-                for (int j = 0; j < num * 2; j++) {
-                    X.add(num);
-                }
-            } else {
-                int num = arr[i];
-                int size = X.size();
-                if (size >= num) {
-                    for (int j = 0; j < num; j++) {
-                        X.remove(size - 1 - j);
-                    }
+        List<Integer> list = new ArrayList<>();
+        
+        for(int i = 0; i < flag.length; i++){            
+            if(flag[i]){
+                for(int j = 0; j < arr[i]*2; j++){
+                    list.add(arr[i]);    
+                }                
+            }else{
+                for(int j = 0; j < arr[i]; j++){
+                    list.remove(list.size()-1);
                 }
             }
         }
-
-        int[] answer = new int[X.size()];
-        for (int i = 0; i < X.size(); i++) {
-            answer[i] = X.get(i);
-        }
-
+        int[] answer = list.stream().mapToInt(Integer::intValue).toArray();
+                                
         return answer;
     }
 }
