@@ -1,37 +1,15 @@
-import java.util.*;
-import java.math.*;
+import java.util.ArrayList;
+import java.util.Arrays;
 class Solution {
     public int[] solution(int[] progresses, int[] speeds) {
-        List<Integer> list = new ArrayList<>();
-        Stack<Integer> stack = new Stack<>();
-        int[] done = new int[progresses.length];
-        int cnt = 0;
-        int idx = 0;
-        
-        for(int i = 0; i < done.length; i++){
-            done[i] = (100 - progresses[i]) / speeds[i];
-            if((100 - progresses[i]) % speeds[i] != 0){
-                done[i] += 1;
+        int[] dayOfend = new int[100];
+        int day = -1;
+        for(int i=0; i<progresses.length; i++) {
+            while(progresses[i] + (day*speeds[i]) < 100) {
+                day++;
             }
+            dayOfend[day]++;
         }
-        
-        while(cnt < done.length){
-            for(int i = 0; i < done.length; i++){
-                done[i] -= 1;
-                if(done[i] <= 0 && idx == i){
-                    stack.push(1);
-                    cnt++;
-                    idx++;
-                }
-            }
-            
-            if(stack.size() > 0){
-                list.add(stack.size());
-                stack.removeAllElements();
-            }
-            
-        }
-        
-        return list.stream().mapToInt(Integer :: intValue).toArray();
+        return Arrays.stream(dayOfend).filter(i -> i!=0).toArray();
     }
 }
